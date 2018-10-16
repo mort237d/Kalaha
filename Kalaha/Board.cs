@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Kalaha
@@ -14,17 +15,47 @@ namespace Kalaha
         public Board()
         {
             InsertBoardAndValuesToArray();
+            PrintStartBoard();
 
+            for (int i = 1; i < 4; i++)
+            {
+                boardIntArray[0, 2 + i] = boardIntArray[0, 2 + i] + 1;
+                UpdateBoard();
+                Thread.Sleep(1000);
+                Console.Clear();
+            }
+
+            UpdateBoard();
+        }
+
+        private void UpdateBoard()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (boardStringArray[i, j] != "   ")
+                    {
+                        boardStringArray[i, j] = "(" + boardIntArray[i, j] + ")";
+                    }
+                }
+            }
+
+            PrintStartBoard();
+        }
+
+        private void PrintStartBoard()
+        {
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
                     Console.Write(boardStringArray[i, j]);
                 }
+
                 Console.WriteLine();
             }
         }
-
         private void InsertBoardAndValuesToArray()
         {
             for (int i = 0; i < 3; i = i + 2)
